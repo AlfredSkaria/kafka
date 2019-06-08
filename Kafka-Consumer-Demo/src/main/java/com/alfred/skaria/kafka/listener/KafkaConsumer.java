@@ -13,8 +13,8 @@ public class KafkaConsumer {
 		System.out.println("Cosumed msg: "+message);
 	}
 	
-	@KafkaListener(topics="kafkaPOCJSON", groupId = "group_id_json", containerFactory = "jsonKafkaListenerContainerFactory")
+	@KafkaListener(topics="kafkaPOCJSON", groupId = "group_id_json", containerFactory="jsonKafkaListenerContainerFactory")
 	public void consumeJson(User user) {
-		System.out.println("consumed json: "+ user);
+		System.out.println("consumed json: "+user.toString());
 	}
 }
