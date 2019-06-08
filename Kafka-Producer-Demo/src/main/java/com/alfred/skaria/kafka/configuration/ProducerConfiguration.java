@@ -3,7 +3,6 @@ package com.alfred.skaria.kafka.configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -26,15 +25,14 @@ public class ProducerConfiguration {
 		config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
 		config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-		return new DefaultKafkaProducerFactory<String, User	>(config);
+		return new DefaultKafkaProducerFactory<String, User>(config);
 	}
-	
+
 	@Bean
-	public KafkaTemplate<String, User> kafkaJsonTemplate(){
+	public KafkaTemplate<String, User> kafkaJsonTemplate() {
 		return new KafkaTemplate<String, User>(jsonProducerFactory());
 	}
-	
-	
+
 	@Bean
 	public ProducerFactory<String, String> producerFactory() {
 
@@ -45,9 +43,9 @@ public class ProducerConfiguration {
 		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		return new DefaultKafkaProducerFactory<String, String>(config);
 	}
-	
+
 	@Bean
-	public KafkaTemplate<String, String> kafkaTemplate(){
+	public KafkaTemplate<String, String> kafkaTemplate() {
 		return new KafkaTemplate<String, String>(producerFactory());
 	}
 }
