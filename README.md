@@ -1,5 +1,5 @@
 # kafka
-A demonstration of spring boot + kafka integration
+# A demonstration of spring boot + kafka integration
 
 Before running producer and consumer application, we need to download kafka and run zookeper, kafka server.
 
@@ -13,8 +13,8 @@ Now we are ready to start the zookeeper and Kafka server. In this example, Kafka
 
 Open the command prompt and change the location to the extracted folder.
 
-bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+# bin\windows\zookeeper-server-start.bat config\zookeeper.properties
 
-bin\windows\kafka-server-start.bat config\server.properties
+# bin\windows\kafka-server-start.bat config\server.properties
 
 Use these commands to start zookeeper and Kafka server.
