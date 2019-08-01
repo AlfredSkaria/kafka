@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alfred.skaria.kafka.model.User;
+import com.alfred.skaria.kafka.model.Vehicle;
 import com.alfred.skaria.kafka.service.KafkaProducerService;
 
 @RestController
@@ -20,7 +20,7 @@ public class KafkaProducerController {
 	KafkaProducerService kafkaProducerService;
 
 	@PostMapping("/publish/json")
-	public ResponseEntity<String> publishJSONMessage(@RequestBody User user) {
+	public ResponseEntity<String> publishJSONMessage(@RequestBody Vehicle user) {
 		kafkaProducerService.sendJsonObject(user);
 		return new ResponseEntity<String>("Json Published Successfully", HttpStatus.OK);
 	}

@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.alfred.skaria.kafka.model.User;
+import com.alfred.skaria.kafka.model.Vehicle;
 
 @Service
 public class KafkaProducerService {
 	
 	@Autowired
-	KafkaTemplate<String, User> kafkaJSONTemplate;
+	KafkaTemplate<String, Vehicle> kafkaJSONTemplate;
 	
 	private static final String JSONTOPIC = "kafkaPOCJSON";
 	
@@ -23,8 +23,8 @@ public class KafkaProducerService {
 		kafkaTemplate.send(TOPIC, name);
 	}
 
-	public void sendJsonObject(User user) {
-		kafkaJSONTemplate.send(JSONTOPIC, user);	
+	public void sendJsonObject(Vehicle vehicle) {
+		kafkaJSONTemplate.send(JSONTOPIC, vehicle);	
 	}
 
 }

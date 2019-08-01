@@ -11,9 +11,10 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.converter.DefaultJackson2JavaTypeMapper;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import com.alfred.skaria.kafka.model.User;
+import com.alfred.skaria.kafka.model.Vehicle;
 
 @EnableKafka
 @Configuration
@@ -24,7 +25,7 @@ public class KafkaConsumerConfig {
 
 		Map<String, Object> config = new HashMap<String, Object>();
 
-		config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+		config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "10.203.47.174:9092");
 		config.put(ConsumerConfig.GROUP_ID_CONFIG, "group_id");
 		config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -39,19 +40,27 @@ public class KafkaConsumerConfig {
 	}
 
 	@Bean
-	public ConsumerFactory<String, User> jsonConsumerFactory() {
+	public ConsumerFactory<String, Vehicle> jsonConsumerFactory() {
+		
+		DefaultJackson2JavaTypeMapper typeMapper = new DefaultJackson2JavaTypeMapper();
+		JsonDeserializer<Vehicle> deserializer = new JsonDeserializer<>(Vehicle.class);
+	    deserializer.setRemoveTypeHeaders(false);
+	    deserializer.addTrustedPackages("*");
+	    deserializer.setTypeMapper(typeMapper);
+	    deserializer.setUseTypeMapperForKey(true);
+		
 		Map<String, Object> config = new HashMap<String, Object>();
-		config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-		config.put(ConsumerConfig.GROUP_ID_CONFIG, "group_id_json");
+		config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "10.203.47.174:9092");
+		config.put(ConsumerConfig.GROUP_ID_CONFIG, "test-consumer-group");
 		config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-		return new DefaultKafkaConsumerFactory<String, User>(config, new StringDeserializer(),
-				new JsonDeserializer<User>(User.class));
+		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer);
+		return new DefaultKafkaConsumerFactory<String, Vehicle>(config, new StringDeserializer(),
+				deserializer);
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, User> jsonKafkaListenerContainerFactory() {
-		ConcurrentKafkaListenerContainerFactory<String, User> factory = new ConcurrentKafkaListenerContainerFactory<String, User>();
+	public ConcurrentKafkaListenerContainerFactory<String, Vehicle> jsonKafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, Vehicle> factory = new ConcurrentKafkaListenerContainerFactory<String, Vehicle>();
 		factory.setConsumerFactory(jsonConsumerFactory());
 		return factory;
 	}
